@@ -134,8 +134,8 @@ write_files:
           \033[0;32m/var/log/apache2/error.log\033[0m
 
         \033[1;33mFrom the host:\033[0m
-          \033[0;32mcurl http://localhost:8081\033[0m     test HTTP
-          \033[0;32mcurl -k https://localhost:8443\033[0m test HTTPS
+          Run \033[0;32mqlab ports\033[0m on the host to see HTTP/HTTPS ports
+          Then: \033[0;32mcurl http://localhost:<port>\033[0m
 
         \033[1;33mCredentials:\033[0m  \033[1;36mlabuser\033[0m / \033[1;36mlabpass\033[0m
         \033[1;33mExit:\033[0m         type '\033[1;31mexit\033[0m'
@@ -253,6 +253,14 @@ start_vm "$OVERLAY_DISK" "$CIDATA_ISO" "$MEMORY" "$PLUGIN_NAME" auto \
     "hostfwd=tcp::0-:80" \
     "hostfwd=tcp::0-:443"
 
+# Read the dynamically allocated HTTP/HTTPS ports from .ports file
+HTTP_PORT=""
+HTTPS_PORT=""
+if [[ -f "$STATE_DIR/${PLUGIN_NAME}.ports" ]]; then
+    HTTP_PORT=$(grep ':80$' "$STATE_DIR/${PLUGIN_NAME}.ports" | head -1 | cut -d: -f2)
+    HTTPS_PORT=$(grep ':443$' "$STATE_DIR/${PLUGIN_NAME}.ports" | head -1 | cut -d: -f2)
+fi
+
 echo ""
 echo "============================================="
 echo "  apache-lab: VM is booting"
@@ -266,7 +274,12 @@ echo "  Connect via SSH (wait ~60s for boot + package install):"
 echo "    qlab shell ${PLUGIN_NAME}"
 echo ""
 echo "  Test Apache (after boot completes):"
+if [[ -n "$HTTP_PORT" && -n "$HTTPS_PORT" ]]; then
+echo "    curl http://localhost:${HTTP_PORT}"
+echo "    curl -k https://localhost:${HTTPS_PORT}"
+else
 echo "    Check the HTTP/HTTPS ports with: qlab ports"
+fi
 echo ""
 echo "  View boot log:"
 echo "    qlab log ${PLUGIN_NAME}"
