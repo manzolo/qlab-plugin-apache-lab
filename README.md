@@ -31,9 +31,11 @@ A [QLab](https://github.com/manzolo/qlab) plugin that boots a virtual machine wi
 
 | Service | Host Port | VM Port |
 |---------|-----------|---------|
-| SSH     | 2230      | 22      |
-| HTTP    | 8081      | 80      |
-| HTTPS   | 8443      | 443     |
+| SSH     | dynamic   | 22      |
+| HTTP    | dynamic   | 80      |
+| HTTPS   | dynamic   | 443     |
+
+> All host ports are dynamically allocated. Use `qlab ports` to see the actual mappings.
 
 ## Usage
 
@@ -46,9 +48,9 @@ qlab run apache-lab
 
 # Wait ~60s for boot and package installation, then:
 
-# Test the web server
-curl http://localhost:8081
-curl -k https://localhost:8443
+# Test the web server (check the HTTP/HTTPS ports with 'qlab ports')
+curl http://localhost:<http_port>
+curl -k https://localhost:<https_port>
 
 # Connect via SSH
 qlab shell apache-lab
@@ -65,8 +67,8 @@ qlab stop apache-lab
 ## Exercises
 
 1. **Verify Apache is running**: SSH into the VM and check `systemctl status apache2`
-2. **Modify the web page**: Edit `/var/www/html/index.html` and refresh from the host with `curl http://localhost:8081`
-3. **Test SSL/TLS**: Run `curl -k https://localhost:8443` from the host to verify HTTPS works
+2. **Modify the web page**: Edit `/var/www/html/index.html` and refresh from the host with `curl http://localhost:<http_port>` (check port with `qlab ports`)
+3. **Test SSL/TLS**: Run `curl -k https://localhost:<https_port>` from the host to verify HTTPS works (check port with `qlab ports`)
 4. **Create a virtual host**: Add a new site config in `/etc/apache2/sites-available/` and enable it with `a2ensite`
 5. **Test .htaccess**: Create a `.htaccess` file in `/var/www/html/` with access rules (e.g., deny all, password protect)
 
