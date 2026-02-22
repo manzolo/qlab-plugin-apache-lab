@@ -171,12 +171,14 @@ curl -s localhost
 ### 2.6 Check the access log
 
 ```bash
-sudo tail -3 /var/log/apache2/access.log
+sudo tail -3 /var/log/apache2/other_vhosts_access.log
 ```
+
+> **Note:** On Debian/Ubuntu, Apache logs virtual host access to `other_vhosts_access.log` by default (via the `vhost_combined` log format). The traditional `access.log` may remain empty when virtual hosts are in use.
 
 **Expected output (example):**
 ```
-127.0.0.1 - - [21/Feb/2026:10:00:00 +0000] "GET / HTTP/1.1" 200 ...
+localhost:80 127.0.0.1 - - [21/Feb/2026:10:00:00 +0000] "GET / HTTP/1.1" 200 ...
 ```
 
 **Verification:** `curl localhost` returns your modified content.
@@ -424,7 +426,7 @@ Effective troubleshooting starts with logs. Apache provides detailed access and 
 ### 6.1 View access log
 
 ```bash
-sudo tail -5 /var/log/apache2/access.log
+sudo tail -5 /var/log/apache2/other_vhosts_access.log
 ```
 
 ### 6.2 View error log
