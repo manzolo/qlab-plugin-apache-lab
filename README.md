@@ -66,11 +66,27 @@ qlab stop apache-lab
 
 ## Exercises
 
-1. **Verify Apache is running**: SSH into the VM and check `systemctl status apache2`
-2. **Modify the web page**: Edit `/var/www/html/index.html` and refresh from the host with `curl http://localhost:<http_port>` (check port with `qlab ports`)
-3. **Test SSL/TLS**: Run `curl -k https://localhost:<https_port>` from the host to verify HTTPS works (check port with `qlab ports`)
-4. **Create a virtual host**: Add a new site config in `/etc/apache2/sites-available/` and enable it with `a2ensite`
-5. **Test .htaccess**: Create a `.htaccess` file in `/var/www/html/` with access rules (e.g., deny all, password protect)
+> **New to Apache?** See the [Step-by-Step Guide](guide.md) for complete walkthroughs with full config examples.
+
+| # | Exercise | What you'll do |
+|---|----------|----------------|
+| 1 | **Apache Anatomy** | Explore Apache installation, config structure, and modules |
+| 2 | **Serving Content** | Modify the default page and serve custom HTML |
+| 3 | **SSL/TLS** | Configure HTTPS with self-signed certificates |
+| 4 | **Virtual Hosts** | Set up multiple sites with name-based virtual hosts |
+| 5 | **.htaccess and Access Control** | Configure access rules and URL rewriting |
+| 6 | **Logs and Diagnostics** | Analyze access/error logs and troubleshoot issues |
+
+## Automated Tests
+
+An automated test suite validates the exercises against a running VM:
+
+```bash
+# Start the lab first
+qlab run apache-lab
+# Wait ~60s for cloud-init, then run all tests
+qlab test apache-lab
+```
 
 ## Resetting
 
