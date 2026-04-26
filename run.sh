@@ -92,6 +92,10 @@ packages:
   - apache2
   - ssl-cert
   - curl
+  - zsh
+  - vim
+  - nano
+  - fonts-powerline
 write_files:
   - path: /etc/profile.d/cloud-init-status.sh
     permissions: '0755'
@@ -143,6 +147,13 @@ write_files:
       \033[1;36m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m
 
 
+  - path: /tmp/setup-zsh.sh
+    permissions: '0755'
+    content: |
+      #!/bin/bash
+      RUNZSH=no CHSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+      sed -i 's/^ZSH_THEME=.*/ZSH_THEME="agnoster"/' ~/.zshrc
+      sed -i 's/^plugins=(.*)/plugins=(git)/' ~/.zshrc
 runcmd:
   - chmod -x /etc/update-motd.d/*
   - sed -i 's/^#\?PrintMotd.*/PrintMotd yes/' /etc/ssh/sshd_config
@@ -185,6 +196,8 @@ runcmd:
   - a2ensite default.conf default-ssl.conf
   - systemctl enable apache2
   - systemctl restart apache2
+  - sudo -Hu labuser bash /tmp/setup-zsh.sh
+  - chsh -s /usr/bin/zsh labuser
   - echo "=== apache-lab VM is ready! ==="
 USERDATA
 
