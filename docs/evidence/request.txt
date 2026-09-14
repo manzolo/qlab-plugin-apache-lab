@@ -1,0 +1,19 @@
+$ curl -I http://localhost/
+HTTP/1.1 200 OK
+Date: Mon, 14 Sep 2026 09:40:56 GMT
+Server: Apache/2.4.52 (Ubuntu)
+Last-Modified: Mon, 14 Sep 2026 09:40:45 GMT
+ETag: "15-65b6e3a7a452b"
+
+$ curl -Ik https://localhost/
+HTTP/1.1 200 OK
+Date: Mon, 14 Sep 2026 09:40:56 GMT
+Server: Apache/2.4.52 (Ubuntu)
+Last-Modified: Mon, 14 Sep 2026 09:40:45 GMT
+ETag: "15-65b6e3a7a452b"
+
+$ curl -I https://localhost/   (no -k, so the chain is verified)
+curl: (60) SSL certificate problem: self-signed certificate
+More details here: https://curl.se/docs/sslcerts.html
+
+curl failed to verify the legitimacy of the server and therefore could not

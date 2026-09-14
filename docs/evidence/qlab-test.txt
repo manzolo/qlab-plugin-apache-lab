@@ -1,0 +1,92 @@
+[INFO] Running tests for plugin 'apache-lab'...
+
+
+=========================================
+  apache-lab — Automated Test Suite
+=========================================
+
+  [INFO] Workspace: /home/manzolo/Workspaces/qemu/qlab/qlab
+  [INFO] Server port: 2225
+  [INFO] HTTP port: 2226
+  [INFO] HTTPS port: 2229
+  [INFO] Checking VM connectivity...
+  [PASS] VM is reachable via SSH
+  [INFO] Checking cloud-init status...
+  [PASS] Cloud-init is done
+  [INFO] Cleaning up apache test artifacts...
+
+Exercise 1 — Apache Anatomy
+
+  [PASS] Apache service is active
+  [PASS] apache2.conf exists
+  [PASS] sites-available exists
+  [PASS] sites-enabled exists
+  [PASS] mods-enabled exists
+  [PASS] Listens on port 80
+  [PASS] Default site config exists
+  [PASS] HTTP serves content
+
+  Exercise 1: All 8 checks passed
+
+Exercise 2 — Serving Content
+
+  [PASS] Document root /var/www/html exists
+  [PASS] Default page returns content
+  [PASS] Modified page is served
+  [PASS] Existing page returns 200
+  [PASS] Missing page returns 404
+  [PASS] Access log records GET requests
+
+  Exercise 2: All 6 checks passed
+
+Exercise 3 — SSL/TLS
+
+  [PASS] HTTPS serves content
+  [PASS] SSL certificate file exists
+  [PASS] SSL key file exists
+  [PASS] Certificate has apache-lab organization
+  [PASS] SSL site config exists
+  [PASS] SSL config has SSLEngine on
+  [PASS] SSL config has SSLCertificateFile
+  [PASS] Port 443 is listening
+
+  Exercise 3: All 8 checks passed
+
+Exercise 4 — Virtual Hosts
+
+  [PASS] Config validates
+  [PASS] Apache reload succeeds
+  [PASS] Virtual host serves correct content
+
+  Exercise 4: All 3 checks passed
+
+Exercise 5 — .htaccess and Access Control
+
+  [PASS] htpasswd is available
+  [PASS] Unauthenticated request returns 401
+  [PASS] Correct credentials return 200
+  [PASS] Protected content is returned
+  [PASS] Wrong credentials return 401
+
+  Exercise 5: All 5 checks passed
+
+Exercise 6 — Logs and Diagnostics
+
+  [PASS] Log directory has files
+  [PASS] Error log exists
+  [PASS] Config validation passes
+  [PASS] Apache is listening on port 80
+  [PASS] Apache version info available
+
+  Exercise 6: All 5 checks passed
+
+=========================================
+  Final Report
+=========================================
+
+  Exercises run:     6
+  Exercises passed:  6
+  Exercises failed:  0
+  Exercises skipped: 0
+
+  All exercises passed!

@@ -1,0 +1,48 @@
+# apache-lab — what the walkthrough builder captures from a running lab.
+# The test suite runs first: it exercises the lab, and what follows shows the
+# result rather than the bare boot state.
+
+evidence:
+  - id: qlab-test
+    cmd: qlab test apache-lab 2>&1 || true
+  - id: version
+    vm: apache-lab
+    cmd: 'apache2 -v; systemctl is-active apache2; systemctl is-enabled apache2'
+  - id: mpm-and-modules
+    vm: apache-lab
+    cmd: sudo apache2ctl -M 2>/dev/null | grep -E 'mpm|ssl|rewrite|headers|authz_core' | sed 's/^ *//'
+  - id: processes
+    vm: apache-lab
+    cmd: ps -o user,pid,ppid,cmd --no-headers -C apache2
+  - id: listening
+    vm: apache-lab
+    cmd: sudo ss -tlnH 'sport = :80 or sport = :443'
+  - id: sites
+    vm: apache-lab
+    cmd: 'ls -l /etc/apache2/sites-enabled/; echo; ls /etc/apache2/sites-available/'
+  - id: vhost-ssl
+    vm: apache-lab
+    cmd: grep -vE '^\s*#|^\s*$' /etc/apache2/sites-available/default-ssl.conf 2>/dev/null | head -20
+  - id: certificate
+    vm: apache-lab
+    cmd: |
+      crt=$(grep -hoiE 'SSLCertificateFile\s+\S+' /etc/apache2/sites-enabled/*.conf 2>/dev/null | awk '{print $2}' | head -1)
+      echo "certificate: ${crt:-none configured}"
+      [ -n "$crt" ] && sudo openssl x509 -in "$crt" -noout -subject -issuer -dates
+  - id: configtest
+    vm: apache-lab
+    cmd: sudo apache2ctl configtest 2>&1
+  - id: request
+    vm: apache-lab
+    cmd: |
+      echo '$ curl -I http://localhost/'
+      curl -sI http://localhost/ | head -5
+      echo
+      echo '$ curl -Ik https://localhost/'
+      curl -sIk https://localhost/ | head -5
+      echo
+      echo '$ curl -I https://localhost/   (no -k, so the chain is verified)'
+      curl -sSI https://localhost/ 2>&1 | head -4
+  - id: logs
+    vm: apache-lab
+    cmd: 'sudo tail -5 /var/log/apache2/access.log; echo; sudo tail -3 /var/log/apache2/error.log'

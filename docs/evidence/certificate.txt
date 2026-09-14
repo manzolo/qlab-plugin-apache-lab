@@ -1,0 +1,5 @@
+certificate: /etc/ssl/certs/apache-selfsigned.crt
+subject=CN = localhost, O = apache-lab, C = US
+issuer=CN = localhost, O = apache-lab, C = US
+notBefore=Sep 14 09:39:27 2026 GMT
+notAfter=Sep 14 09:39:27 2027 GMT

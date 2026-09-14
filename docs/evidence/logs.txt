@@ -1,0 +1,4 @@
+
+[Mon Sep 14 09:40:53.682319 2026] [ssl:warn] [pid 2242:tid 140274110928768] AH01906: localhost:443:0 server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Mon Sep 14 09:40:53.682412 2026] [mpm_event:notice] [pid 2242:tid 140274110928768] AH00489: Apache/2.4.52 (Ubuntu) OpenSSL/3.0.2 configured -- resuming normal operations
+[Mon Sep 14 09:40:53.682417 2026] [core:notice] [pid 2242:tid 140274110928768] AH00094: Command line: '/usr/sbin/apache2'
